@@ -4778,7 +4778,8 @@ pub(crate) mod postgres_tests {
         .fetch_one(&db.pool)
         .await
         .expect("lookup retained guards");
-        assert_eq!(retained, (true, true));
+        // The lock function stays; 0093 retired the tombstone trigger.
+        assert_eq!(retained, (true, false));
     }
 
     #[tokio::test]

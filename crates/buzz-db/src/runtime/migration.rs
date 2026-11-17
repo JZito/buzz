@@ -4001,7 +4001,8 @@ mod postgres_tests {
         .fetch_one(&pool)
         .await
         .expect("read retained guards");
-        assert_eq!(retained, (true, true));
+        // The lock function stays; 0093 retired the tombstone trigger.
+        assert_eq!(retained, (true, false));
         store
             .validate_serving_catalog()
             .await
